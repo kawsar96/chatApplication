@@ -32,7 +32,7 @@ const userValidators = [
     }),
 
   check("mobile")
-    .isMobilePhone("cn-CA", {
+    .isMobilePhone("en-CA", {
       strictMode: true,
     })
     .withMessage("Mobile number must be a Canadian mobile number!")
