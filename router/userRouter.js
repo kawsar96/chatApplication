@@ -13,14 +13,21 @@ const {
   userValidators,
   errorValidationHandler,
 } = require("../middlewares/users/userValidator");
-
+const { checkLogin } = require("../middlewares/common/checkLogin");
 const router = express.Router();
 
-// login page
-router.get("/", decorateHTMLResponse("Users"), getUsers);
+// users page
+router.get("/", decorateHTMLResponse("Users"), checkLogin, getUsers);
 
 // add user
-router.post("/", avatarUpload, userValidators, errorValidationHandler, addUser);
+router.post(
+  "/",
+  checkLogin,
+  avatarUpload,
+  userValidators,
+  errorValidationHandler,
+  addUser
+);
 
 // remove user
 router.delete("/:id", removeUser);
