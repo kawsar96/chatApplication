@@ -1,12 +1,21 @@
 // external imports
 const bcrypt = require("bcrypt");
+const { unlink } = require("fs");
+const path = require("path");
 
 // internal imports
 const User = require("../models/People");
 
 // get users page
-function getUsers(req, res, next) {
-  res.render("users");
+async function getUsers(req, res, next) {
+  try {
+    const users = await User.find();
+    res.render("users", {
+      users: users,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 // add user
@@ -44,7 +53,39 @@ async function addUser(req, res, next) {
   }
 }
 
+// remove user
+async function removeUser(req, res, next) {
+  try {
+    const user = await User.findByIdAndDelete({
+      _id: req.params.id,
+    });
+
+    // delete user's photo if have any
+    if (user.avatar) {
+      unlink(
+        path.join(__dirname, `/../public/uploads/avatars/${user.avatar}`),
+        (err) => {
+          if (err) console.log(err);
+        }
+      );
+    }
+
+    res.status(200).json({
+      message: "User was removed successfully!",
+    });
+  } catch (err) {
+    res.status(500).json({
+      errors: {
+        common: {
+          msg: "User was not removed!",
+        },
+      },
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   addUser,
+  removeUser,
 };
