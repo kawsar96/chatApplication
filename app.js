@@ -1,9 +1,13 @@
 // external imports
 const express = require("express");
+const http = require("http");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const moment = require("moment");
+
+// internal exports
 const loginRouter = require("./router/loginRouter");
 const userRouter = require("./router/userRouter");
 const inboxRouter = require("./router/inboxRouter");
@@ -15,7 +19,15 @@ const {
 } = require("./middlewares/common/errorHandler");
 
 const app = express();
+const server = http.createServer(app);
 dotenv.config();
+
+// socket initialization
+const io = require("socket.io")(server);
+global.io = io;
+
+// set moment as app locals
+app.locals.moment = moment;
 
 // database connection
 mongoose
@@ -47,6 +59,16 @@ app.use(notFoundHandler);
 // common error handler
 app.use(errorHandler);
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`app is listening to port ${process.env.PORT}`);
 });
+
+// // Listen for WebSocket connections
+// io.on("connection", (socket) => {
+//   console.log("A client connected with ID:", socket.id);
+
+//   // Handle disconnection
+//   socket.on("disconnect", () => {
+//     console.log("Client disconnected:", socket.id);
+//   });
+// });

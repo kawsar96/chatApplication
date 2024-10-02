@@ -28,10 +28,12 @@ async function login(req, res, next) {
       if (isValidPassword) {
         // user object to generate JWT token for user
         const userObject = {
+          userid: user._id,
           username: user.name,
           mobile: user.mobile,
           email: user.email,
-          role: "user",
+          avatar: user.avatar || null,
+          role: user.role || "user",
         };
 
         // token generation
@@ -50,7 +52,7 @@ async function login(req, res, next) {
         res.locals.loggedInUser = userObject;
 
         // redirect
-        res.render("inbox");
+        res.redirect("/inbox");
       } else {
         throw createError("Login failed! Please try again!");
       }

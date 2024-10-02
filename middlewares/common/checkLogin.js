@@ -15,7 +15,6 @@ const checkLogin = (req, res, next) => {
       if (res.locals.html) {
         res.locals.loggedInUser = decoded;
       }
-
       next();
     } catch (err) {
       if (res.locals.html) {
