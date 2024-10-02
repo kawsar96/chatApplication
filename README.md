@@ -38,25 +38,26 @@ To get started with the Chat Application, follow these steps:
    git clone https://github.com/kawsar96/chatApplication.git
    cd chatApplication
    ```
-2. Install dependencies:
-   bash
-   Copy code
+2. **Install dependencies:**
+   ```bash
    npm install
-   Set up environment variables: Create a .env file in the root directory of the project and add your MongoDB connection string and cookie secret:
-   plaintext
-   Copy code
+   ```
+3. **Set up environment variables:** Create a .env file in the root directory of the project and add your MongoDB connection string and cookie secret:
+   ```bash
    MONGO_CONNECTION_STRING=<your_mongo_connection_string>
    COOKIE_SECRET=<your_cookie_secret>
    PORT=3000
-   Start the server:
-   bash
-   Copy code
+   ```
+4. **Start the server:**
+   ```bash
    npm start
-   Open your browser: Navigate to http://localhost:3000 to access the chat application.
-   Usage
+   ```
+5. **Open your browser:** Navigate to http://localhost:3000 to access the chat application.
+
+## Usage
 
 Once the application is running, you can:
 
-Register a new account or log in if you already have one.
-Start chatting with other users in real-time.
-View your conversation history.
+- Register a new account or log in if you already have one.
+- Start chatting with other users in real-time.
+- View your conversation history.
